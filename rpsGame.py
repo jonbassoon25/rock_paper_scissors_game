@@ -2,7 +2,7 @@ import random
 import pygame
 
 pygame.init()
-
+#hello
 #assets
 rock_png = pygame.image.load("assets/rock.png")
 rock_png = pygame.transform.scale(rock_png, (200, 200))
