@@ -2,7 +2,6 @@ import random
 import pygame
 
 pygame.init()
-#hello
 #assets
 rock_png = pygame.image.load("assets/rock.png")
 rock_png = pygame.transform.scale(rock_png, (200, 200))
@@ -20,19 +19,19 @@ NEEDED_SIZE = 400
 
 #functions
 #increases size of rock image, returns new size
-def inflate_rock(init_size, amount):
-	rock_png = pygame.transform(rock_png, (init_size + amount, init_size + amount))
-	return init_size + amount
+def inflate_rock(rock_png, init_size, amount):
+	rock_png = pygame.transform.scale(rock_png, (init_size + amount, init_size + amount))
+	return [rock_png, init_size + amount]
 
 #increases size of paper image, returns new size
-def inflate_paper(init_size, amount):
-	rock_png = pygame.transform(paper_jpg, (init_size + amount, init_size + amount))
-	return init_size + amount
+def inflate_paper(paper_jpg, init_size, amount):
+	paper_jpg = pygame.transform.scale(paper_jpg, (init_size + amount, init_size + amount))
+	return [paper_jpg, init_size + amount]
 
 #increases size of scissors image, returns new size
-def inflate_scissors(init_size, amount):
-	rock_png = pygame.transform(scissors_png, (init_size + amount, init_size + amount))
-	return init_size + amount
+def inflate_scissors(scissors_png, init_size, amount):
+	scissors_png = pygame.transform.scale(scissors_png, (init_size + amount, init_size + amount))
+	return [rock_png, init_size + amount]
 
 #draws rock at x, y with size	
 def rock(x, y, size = 200):
@@ -173,19 +172,25 @@ while active:
 	screen.fill("#cccccc")
 	if player1 != "":
 		if player1 == 'rock':
-			rock(150, 250, size)
-			if size < NEEDED_SIZE:
-				size = inflate_rock(size, 2)
+			rock(150, 250)
 		
 		if player1 == 'paper':
-			rock(150, 250, size)
-			if size < NEEDED_SIZE:
-				size = inflate_rock(size, 2)
+			paper(150, 250)
 
 		if player1 == 'scissors':
-			rock(150, 250, size)
-			if size < NEEDED_SIZE:
-				size = inflate_rock(size, 2)
+			scissors(150, 250)
+
+		if player2 == 'rock':
+			rock(550, 250)
+		
+		if player2 == 'paper':
+			paper(550, 250)
+
+		if player2 == 'scissors':
+			scissors(550, 250)
+
+		
+		
 		#display_text(f"You Selected: {player1.title()}")
 		#display_text(f"Computer Selected: {player2.title()}", 100, 450)
 		#display_text(f"The Winner is: {rps_win(player1, player2).title()}", 100, 500)
