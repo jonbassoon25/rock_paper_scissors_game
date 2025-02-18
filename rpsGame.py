@@ -1,4 +1,11 @@
-#Secret game mode when clicking red box
+'''
+Jonthan Hanson
+
+rpsGame.py
+
+Rock Paper Scissors game made using pygame
+
+'''
 
 
 import random
@@ -27,7 +34,10 @@ score = [0, 0, 0]
 selection = 0
 #is game mode rock paper scissors lizard spock
 rpsls = False
-
+#is rock paper scissors being displayed
+rps = False
+#is the menu being displayed
+menu = True
 #functions
 
 #draws rock at x, y with size	
@@ -111,11 +121,15 @@ def rpsls_win(player1, player2):
 		return
 
 #returns computer selection for rock paper scissors
-def computer():
-	options = ["rock", "paper", "scissors"]
-	random_value = random.randint(0, 2)
-	selection = options[random_value]
-	#print(f"Computer's Move: {selection}")
+def computer(rpsls = False):
+	if not rpsls:
+		options = ["rock", "paper", "scissors"]
+		random_value = random.randint(0, 2)
+		selection = options[random_value]
+	else:
+		options = ["rock", "paper", "scissors", "lizard", "spock"]
+		random_value = random.randint(0, 4)
+		selection = options[random_value]
 	return selection
 
 #displays rock paper and scissors images with outlines
@@ -193,55 +207,117 @@ while active:
 
 		if event.type == pygame.KEYDOWN and player1 == '':
 			#Events that happen on key presses
-			if event.key == pygame.K_r:
+			if event.key == pygame.K_r and not menu:
 				player1 = "rock"
-				player2 = computer()
-				selection = 1
-			if event.key == pygame.K_s:
+				if not rpsls:
+					player2 = computer()
+				else:
+					player2 = computer(True)
+			if event.key == pygame.K_s and not menu:
 				player1 = "scissors"
-				player2 = computer()
-				selection = 2
-			if event.key == pygame.K_p:
+				if not rpsls:
+					player2 = computer()
+				else:
+					player2 = computer(True)
+			if event.key == pygame.K_p and not menu:
 				player1 = "paper"
-				player2 = computer()
-				selection = 3
+				if not rpsls:
+					player2 = computer()
+				else:
+					player2 = computer(True)
+			if event.key == pygame.K_l and rpsls and not menu:
+				player1 = "lizard"
+				player2 = computer(True)
+			if event.key == pygame.K_k and rpsls and not menu:
+				player1 = "spock"
+				player2 = computer(True)
+			
 
-		if event.type == pygame.MOUSEBUTTONDOWN:
+		if event.type == pygame.MOUSEBUTTONUP:
 			#gets position of mouse click and assignes to mouse_x and mouse_y
 			mouse_x, mouse_y = event.pos
 			#Check if something is pressed
-			if mouse_x >= 50 and mouse_x <= 250 and mouse_y >= 150 and mouse_y <= 350 and player1 == '':
+			if mouse_x >= 50 and mouse_x <= 250 and mouse_y >= 150 and mouse_y <= 350 and player1 == '' and not rpsls and not menu:
 				player1 = "rock"
 				player2 = computer()
 
-			if mouse_x >= 300 and mouse_x <= 500 and mouse_y >= 150 and mouse_y <= 350 and player1 == '':
+			if mouse_x >= 300 and mouse_x <= 500 and mouse_y >= 150 and mouse_y <= 350 and player1 == '' and not rpsls and not menu:
 				player1 = "paper"
 				player2 = computer()
 
-			if mouse_x >= 550 and mouse_x <= 750 and mouse_y >= 150 and mouse_y <= 350 and player1 == '':
+			if mouse_x >= 550 and mouse_x <= 750 and mouse_y >= 150 and mouse_y <= 350 and player1 == '' and not rpsls and not menu:
 				player1 = "scissors"
 				player2 = computer()
+
+
+			if mouse_x >= 50 and mouse_x <= 250 and mouse_y >= 50 and mouse_y <= 250 and player1 == '' and rpsls and not menu:
+				player1 = "rock"
+				player2 = computer(True)
+
+			if mouse_x >= 300 and mouse_x <= 500 and mouse_y >= 50 and mouse_y <= 250 and player1 == '' and rpsls and not menu:
+				player1 = "paper"
+				player2 = computer(True)
+
+			if mouse_x >= 550 and mouse_x <= 750 and mouse_y >= 50 and mouse_y <= 250 and player1 == '' and rpsls and not menu:
+				player1 = "scissors"
+				player2 = computer(True)
+			
+			if mouse_x >= 550 and mouse_x <= 750 and mouse_y >= 350 and mouse_y <= 550 and player1 == '' and rpsls and not menu:
+				player1 = "lizard"
+				player2 = computer(True)
+
+			if mouse_x >= 50 and mouse_x <= 250 and mouse_y >= 350 and mouse_y <= 550 and player1 == '' and rpsls and not menu:
+				player1 = "spock"
+				player2 = computer(True)
+
+
 			if mouse_x >= 725 and mouse_x <= 800 and mouse_y >= 0 and mouse_y <= 25:
 				player1 = ''
 				player2 = ''
+				
 			if mouse_x >= 750 and mouse_x <= 800 and mouse_y >= 550 and mouse_y <= 600:
+				menu = True
+				rps = False
+				rpsls = False
+				player1 = ''
+				player2 = ''
+			if mouse_x > 200 and mouse_x < 600 and mouse_y > 100 and mouse_y < 250 and menu:
+				rps = True
+				menu = False
+
+			if mouse_x > 200 and mouse_x < 600 and mouse_y > 300 and mouse_y < 450 and menu:
 				rpsls = True
+				menu = False
 			
 	#calculate events
 	#Gets mouse position
 	mouse_x, mouse_y = pygame.mouse.get_pos()
 	#what button is the mouse above, if any
-	if mouse_x >= 50 and mouse_x <= 250 and mouse_y >= 150 and mouse_y <= 350:
+	if mouse_x >= 50 and mouse_x <= 250 and mouse_y >= 150 and mouse_y <= 350 and not rpsls and not menu:
 		selection = 1
-	elif mouse_x >= 300 and mouse_x <= 500 and mouse_y >= 150 and mouse_y <= 350:
+	elif mouse_x >= 300 and mouse_x <= 500 and mouse_y >= 150 and mouse_y <= 350 and not rpsls and not menu:
 		selection = 2
-	elif mouse_x >= 550 and mouse_x <= 750 and mouse_y >= 150 and mouse_y <= 350:
+	elif mouse_x >= 550 and mouse_x <= 750 and mouse_y >= 150 and mouse_y <= 350 and not rpsls and not menu:
 		selection = 3
+	
+	elif mouse_x >= 50 and mouse_x <= 250 and mouse_y >= 50 and mouse_y <= 250 and rpsls and not menu:
+		selection = 1
+	elif mouse_x >= 300 and mouse_x <= 500 and mouse_y >= 50 and mouse_y <= 250 and rpsls and not menu:
+		selection = 2
+	elif mouse_x >= 550 and mouse_x <= 750 and mouse_y >= 50 and mouse_y <= 250 and rpsls and not menu:
+		selection = 3
+	elif mouse_x >= 550 and mouse_x <= 750 and mouse_y >= 350 and mouse_y <= 550 and rpsls and not menu:
+		selection = 4
+	elif mouse_x >= 50 and mouse_x <= 250 and mouse_y >= 350 and mouse_y <= 550 and rpsls and not menu:
+		selection = 5
 	else:
 		selection = 0
 
 	if player1 != '' and not score_added:
-		winner = rps_win(player1, player2)
+		if not rpsls:
+			winner = rps_win(player1, player2)
+		else:
+			winner = rpsls_win(player1, player2)
 	else:
 		winner = ''
 
@@ -257,7 +333,7 @@ while active:
 
 	#update screen
 	screen.fill("#cccccc")
-	if player1 != "":
+	if player1 != "" and not menu:
 		if player1 == 'rock':
 			rock(200, 250)
 		
@@ -266,6 +342,12 @@ while active:
 
 		if player1 == 'scissors':
 			scissors(200, 250)
+		
+		if player1 == 'lizard':
+			lizard(200, 250)
+		
+		if player1 == 'spock':
+			spock(200, 250)
 
 		if player2 == 'rock':
 			rock(600, 250)
@@ -275,6 +357,12 @@ while active:
 
 		if player2 == 'scissors':
 			scissors(600, 250)
+		
+		if player2 == 'lizard':
+			lizard(600, 250)
+		
+		if player2 == 'spock':
+			spock(600, 250)
 
 		box(screen, 200, 250)
 		box(screen, 600, 250)
@@ -282,27 +370,30 @@ while active:
 		display_text("Player", 145, 100)
 		display_text("Computer", 545, 100)
 		display_text("Winner", 350, 400)
-		display_text(rps_win(player1, player2), 325, 450)
+		display_text(rpsls_win(player1, player2), 325, 450)
 		
 		back_button(screen, 725, 0)
 	else:
-		if not rpsls:
+		if (rps):
 			rps_lineup(selection)
-		else:
+		elif (rpsls):
 			rpsls_lineup(selection)
+		elif (menu):
+			pygame.draw.rect(screen, "black", (200, 100, 400, 150), 3)
+			display_text("Rock Paper Scissors", 215, 165, 33)
+			pygame.draw.rect(screen, "black", (200, 300, 400, 150), 3)
+			display_text("Rock Paper Scissors", 215, 350, 33)
+			display_text("Lizard Spock", 275, 400, 33)
 		score_added = False
-	
-	pygame.draw.rect(screen, "red", (750, 550, 50, 50))
+
+	if not menu:
+		pygame.draw.rect(screen, "black", (750, 550, 50, 50), 3)
+		display_text("Menu", 755, 570, 15)
 		
-		
-		
-		#display_text(f"You Selected: {player1.title()}")
-		#display_text(f"Computer Selected: {player2.title()}", 100, 450)
-		#display_text(f"The Winner is: {rps_win(player1, player2).title()}", 100, 500)
 
 	
 	
-	display_text(f"Wins: {score[0]}    Losses: {score[1]}    Ties: {score[2]}", 25, 25)
+	display_text(f"Wins: {score[0]}    Losses: {score[1]}    Ties: {score[2]}", 25, 15)
 	
 	pygame.display.flip()
 
